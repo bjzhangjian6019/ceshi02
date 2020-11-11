@@ -1,0 +1,244 @@
+day06
+-----------------------------------------------
+回顾知识：
+1、数组的工具类
+      toString();-----[1,3,4]
+      sort();---------升序排序
+      copyOf();-------数组的复制
+            要复制的数组，新的数组的长度；
+            扩容、缩容操作。
+2、冒泡排序
+      比较趟数、轮数：n-1
+      如何写冒泡排序？
+      原理？
+      能否进行优化？
+      如何优化？
+3、方法的应用
+      形式参数是基本数据类型，形式参数的改变不影响实际参数的改变。
+      形式参数是引用数据类型，形式参数的改变影响实际参数的改变。
+      举例：栈和堆一些操作。
+4、二维数组
+      了解。
+      声明一个二维数组？
+      初始化： [m][n]
+      如何遍历？循环的嵌套
+5、类和对象
+      面向对象？面向过程？
+
+      面向对象的定义：
+         根据客户的需求抽象出来业务对象，然后对这些业务进行合理的分层，构建出相对应的模块；
+         设计业务逻辑，利用面向对象的思想：封装、继承、多态、抽象等，实现具体的业务逻辑/需求;
+         最后达到高内聚、低耦合的效果。
+
+
+      OOP：
+      了解：
+          OOA：面向对象分析
+          OOD：面向对象设计
+          OOAD：面向对象的分析与设计
+
+      类和对象：
+      类是抽象的
+      对象：具体的；
+          属性和行为：
+          成员变量和方法：抽象的---类
+
+      Phone 手机类
+      Demo01 测试类
+
+package cn.tedu.oop;
+/**
+ * 对象的内存结构分析：
+ *    Phone和Demo01
+ * @author:Administrator
+ * @date:2020/11/11
+ */
+public class Demo01 {
+    public static void main(String[] args) {
+        Phone p = new Phone();
+        p.color = "海军蓝";
+        p.brand = "iPhone 12 pro max";
+        p.price = 9299.0;
+        p.size = 6.7;
+        System.out.println(p.color);
+        System.out.println(p.brand);
+        System.out.println(p.price);
+        System.out.println(p.size);
+    }
+}
+
+-------------------------------------------------------
+Demo02:
+
+package cn.tedu.oop;
+/**
+ * 对象的内存结构分析：
+ *    Phone和Demo01
+ *    多个对象使用同一个内存空间
+ * @author:Administrator
+ * @date:2020/11/11
+ */
+public class Demo02 {
+    public static void main(String[] args) {
+        Phone p = new Phone();
+        p.color = "海军蓝";
+        p.brand = "iPhone 12 pro max";
+        p.price = 9299.0;
+        p.size = 6.7;
+
+        System.out.println(p);
+        System.out.println(p.color);
+        System.out.println(p.brand);
+        System.out.println(p.price);
+        System.out.println(p.size);
+        System.out.println("------------------------------------");
+        Phone p1 = p;
+        System.out.println(p1.brand);
+        System.out.println(p1.price);
+        p1.call();
+        p1.price = 8999.0;
+        System.out.println(p1.price);
+        System.out.println(p.price);
+    }
+}
+--------------------------------------------------------
+2、封装
+
+    基本概念：
+        体现两点优势：复用性+安全性
+        通过关键字private来进行修饰
+        只要被private修饰后，资源只能被本类中进行访问。
+
+    Demo03：
+
+package cn.tedu.oop;
+
+/**
+ * @author:Administrator
+ * @date:2020/11/11
+ */
+public class Student {
+    //成员变量
+    //使用private修饰
+    private String name;//姓名，name只能在本类中使用，被private进行封装
+    private int age;//年龄
+    private char gender;//性别
+    private double score;//分数
+
+    //get和set方法
+    //当属性被private封装后，需要获取值的时候，得通过getXXX方法来访问
+    public String getName() {
+        return name;//直接获取当前类中name值
+    }
+    //当属性被private封装后，可以使用setXXX方法进行设置值
+    public void setName(String name) {//name=张三
+        this.name = name;//给name赋值
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public char getGender() {
+        return gender;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", gender=" + gender +
+                ", score=" + score +
+                '}';
+    }
+
+    //使用private封装的，只能在本类中访问。
+    private void coding(){
+        System.out.println("coding...........");
+    }
+
+    //方法
+    public void study(){
+        System.out.println("学习......");
+        coding();
+    }
+
+}
+---------------------------------------------
+package cn.tedu.oop;
+
+/**
+ * 总结：
+ *      1、封装主要使用private关键字来实现的
+ *      2、被封装的资源，提高了使用中安全性；只能在本类中进行访问，别的类访问不了
+ *      3、如果在别的类里，非要访问私有资源，只能提供公共的方法
+ *      4、当方法被私有化之后，外界是无法访问直接访问，只能间接去访问
+ *      5、当属性被私有化之后，外界也是无法访直接访问的，只能通过getXXX方法进行获取值，
+ *          通过setXXX方法设置值。
+ * @author:Administrator
+ * @date:2020/11/11
+ */
+public class Demo03 {
+
+    public static void main(String[] args) {
+
+        Student stu = new Student();
+        stu.study();//公共的修饰public
+        //stu.coding();//coding()方法已经被private修饰封装了，只能本类中使用
+        //stu.name = "张三";//name属性被封装了，只能在本类中使用
+        stu.setName("张三");//可以利用set方法进行修改值
+        System.out.println(stu.getName());//通过get方法来进行获取值
+        stu.setAge(19);
+       //System.out.println(stu.age);
+        System.out.println(stu.getAge());
+        stu.setGender('男');//设置gender性别
+        System.out.println(stu.getGender());
+        stu.setScore(98.0);//设置分数 score
+        System.out.println(stu.getScore());
+        System.out.println("-------------------------------");
+        System.out.println(stu.toString());
+    }
+}
+------------------------------------------------------
+3、构造方法
+    基本概念：
+        构造方法名与类名相同
+        一般不给构造方法，系统会默认给一个无参构造方法
+        通常进行实例化对象的时候，会自动触发构造方法
+    作用:用来创建对象和完成对象的初始化操作
+
+    基本语法：
+        修饰符 类名(参数列表){
+
+        }
+    注意：没有任何返回值，void也没有。
+
+    Teacher类：
+
+
+
+
+
+
+
+
+
+
+
